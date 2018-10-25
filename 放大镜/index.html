@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>放大镜</title>
+		<style type="text/css">
+			.pic{
+				width: 400px;
+				height: 500px;
+				margin: 50px auto;
+				position: relative;
+				/*border: 1px solid black;*/
+			}
+			.big{
+				width: 120px;
+				height: 120px;
+				border: 1px solid black;
+				position: absolute;
+				left: 0;
+				top: 0;
+				overflow: hidden;
+				
+				display: none;
+			}
+			.big>img{
+				width: 600px;
+				height: 700px;
+				/*margin-left: -40px;*/
+				
+			}
+		</style>
+	</head>
+	<body>
+		<div class="pic">
+			<img src="img/ksyx.jpg"/>
+			<div class="big"><img src="img/ksyx.jpg"/></div>
+		</div>
+		<script type="text/javascript">
+			var pic=document.getElementsByClassName("pic")[0];
+			var big=document.getElementsByClassName("big")[0];
+			var bigimg=big.getElementsByTagName("img")[0];
+			pic.onmouseover=function(){
+				big.style.display="block";
+			}
+			pic.onmousemove=function(e){
+				var x=e.clientX;
+				var y=e.clientY;
+				var ml=x-(big.offsetWidth/2)-pic.offsetLeft;
+				var mt=y-(big.offsetHeight/2)-pic.offsetTop;
+//				console.log(ml,mt);
+				if(ml<0) ml=0;
+				if(ml>(pic.offsetWidth-big.offsetWidth)) ml=pic.offsetWidth-big.offsetWidth;
+				if(mt<0) mt=0;
+				if(mt>(pic.offsetHeight-big.offsetHeight)) mt=pic.offsetHeight-big.offsetHeight;
+				big.style.marginLeft=ml+"px";
+				big.style.marginTop=mt+"px";
+				//遮罩层
+				var bpl=ml/pic.offsetWidth*bigimg.offsetWidth;
+				var bpt=mt/pic.offsetHeight*bigimg.offsetHeight;
+				bigimg.style.marginLeft=-bpl-30+"px";
+				bigimg.style.marginTop=-bpt-30+"px";
+			}
+			pic.onmouseout=function(){
+				big.style.display="none";
+			}
+		</script>
+	</body>
+</html>
